@@ -1,7 +1,11 @@
 import sqlite3
+import hashlib
+
+DB_NOMBRE = 'red_admin.db'
+
 
 def inicializar_db():
-    conn = sqlite3.connect('red_admin.db')
+    conn = sqlite3.connect(DB_NOMBRE)
     cursor = conn.cursor()
     
     cursor.execute("PRAGMA foreign_keys = ON;")
@@ -49,11 +53,25 @@ def inicializar_db():
     #Si no hay admin crea uno por defecto
     cursor.execute("SELECT * FROM usuarios WHERE usuario = 'admin'")
     if not cursor.fetchone():
-        cursor.execute("INSERT INTO usuarios (usuario, password_hash) VALUES (?, ?)", 
-                       ('admin', "admin123"))
+        cursor.execute("INSERT INTO usuarios (usuario, password_hash) VALUES (?, ?)", ('admin', generar_hash("admin123")))
     
     conn.commit()
     conn.close()
+
+
+def generar_hash(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+
+def verificar_usuario(user, password):
+    conn = sqlite3.connect(DB_NOMBRE)
+    cursor = conn.cursor()
+    hash_intento = generar_hash(password)
+    
+    cursor.execute("SELECT * FROM usuarios WHERE usuario = ? AND password_hash = ?", (user, hash_intento))
+    resultado = cursor.fetchone()
+    conn.close()
+    return resultado is not None
 
 
 if __name__ == "__main__":
