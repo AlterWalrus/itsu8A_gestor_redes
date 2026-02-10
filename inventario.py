@@ -6,6 +6,13 @@ st.set_page_config(page_title="Inventario", layout="wide")
 
 st.title("Inventario")
 
+flex = st.container(horizontal=True, horizontal_alignment="right")
+
+btn_agregar = flex.button("Agregar")
+btn_editar = flex.button("Editar")
+btn_actualizar = flex.button("Actualizar")
+btn_eliminar = flex.button("Eliminar")
+
 data = {
     
     "Dispositivo": ["PC1", "PC2", "Laptop", "Server"],
