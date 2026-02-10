@@ -48,6 +48,8 @@ def login():
 
 if login():
     st.title("Admin")
+
+    
     
     if st.button("Cerrar Sesión"):
         st.session_state.autenticado = False
