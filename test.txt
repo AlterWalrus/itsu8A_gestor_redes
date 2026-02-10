@@ -1,1 +1,4 @@
 ola
+
+para instalar las dependencias de python basta con hacer
+    pip install -r req.txt

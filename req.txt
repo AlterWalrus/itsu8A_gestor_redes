@@ -1,0 +1,5 @@
+streamlit
+pandas
+python-nmap
+ping3
+netmiko
