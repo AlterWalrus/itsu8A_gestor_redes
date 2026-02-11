@@ -30,7 +30,7 @@ def login():
             center_container.markdown("## Bienvenido")
             
             user_input = "admin"
-            pass_input = center_container.text_input("", type="password", placeholder="Contraseña")
+            pass_input = center_container.text_input("pswd", type="password", placeholder="Contraseña", label_visibility='hidden')
             
             if center_container.button("Iniciar Sesión", use_container_width=True):
                 if db.verificar_usuario(user_input, pass_input):
