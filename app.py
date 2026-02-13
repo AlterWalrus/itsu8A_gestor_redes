@@ -8,16 +8,16 @@ db.inicializar_db()
 
 if log.login():
     with st.container(border=True, horizontal=True):
-        if st.button("Inventario"):
+        if st.button("Inventario", icon=":material/dataset:"):
             print("inv")
         
-        if st.button("Configuración"):
+        if st.button("Configuración", icon=":material/settings:"):
             print("config")
         
-        if st.button("Planes"):
+        if st.button("Planes", icon=":material/task:"):
             print("planes")
         
-        if st.button("Cerrar Sesión"):
+        if st.button("Cerrar Sesión", icon=":material/logout:"):
             st.session_state.autenticado = False
             st.rerun()
     
@@ -36,11 +36,10 @@ if log.login():
         
     
         with st.container(border=True, horizontal_alignment="right"):
-            st.text("Dispositivos")
-
-            pass_input = st.text_input("Filtrar", type="default")
+            st.info("Dispositivos conectados", icon=":material/devices:")
+            pass_input = st.text_input("Filtrar", type="default", label_visibility="hidden")
             
-            with st.container(height=256):
+            with st.container(height=190):
                 lst = ['192.168.12.12 - Device connected via blah blah'] * 12
                 for i in lst:
                     st.markdown(i)

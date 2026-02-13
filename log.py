@@ -28,8 +28,19 @@ def login():
             
             with st.form("login_form", border=False):
                 user_input = "admin"
-                pass_input = st.text_input("pswd", type="password", placeholder="Contraseña", label_visibility="hidden")
-                submit_button = st.form_submit_button("Iniciar Sesión", use_container_width=True, type="primary")
+                pass_input = st.text_input(
+                    "pswd",  
+                    type="password", 
+                    placeholder="Contraseña", 
+                    label_visibility="hidden"
+                )
+
+                submit_button = st.form_submit_button(
+                    "Iniciar Sesión", 
+                    icon=":material/login:", 
+                    use_container_width=True, 
+                    type="primary"
+                )
             
             if submit_button:
                 if db.verificar_usuario(user_input, pass_input):
@@ -39,7 +50,7 @@ def login():
                     st.error("Credenciales incorrectas")
             
             if st.button("¿Olvidaste tu contraseña?", use_container_width=True):
-                st.info("Contacta al administrador de la red.")
+                st.info("en obra negra")
                     
         return False
     return True
