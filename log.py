@@ -29,7 +29,7 @@ def login():
             with st.form("login_form", border=False):
                 user_input = "admin"
                 pass_input = st.text_input(
-                    "pswd",  
+                    "pswd", 
                     type="password", 
                     placeholder="Contraseña", 
                     label_visibility="hidden"
@@ -50,7 +50,7 @@ def login():
                     st.error("Credenciales incorrectas")
             
             if st.button("¿Olvidaste tu contraseña?", use_container_width=True):
-                st.info("en obra negra")
+                st.info("aun por hacer xD")
                     
         return False
     return True

@@ -1,0 +1,9 @@
+[theme]
+base="dark"
+primaryColor="slateBlue"
+
+[client]
+toolbarMode = "minimal"
+
+[ui]
+hideTopBar = true

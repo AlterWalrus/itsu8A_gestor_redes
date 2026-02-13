@@ -3,7 +3,6 @@ import hashlib
 
 DB_NOMBRE = 'red_admin.db'
 
-
 def inicializar_db():
     conn = sqlite3.connect(DB_NOMBRE)
     cursor = conn.cursor()
@@ -14,6 +13,7 @@ def inicializar_db():
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             usuario TEXT UNIQUE,
+            correo TEXT UNIQUE,
             password_hash TEXT
         )
     ''')
@@ -38,15 +38,6 @@ def inicializar_db():
             fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
             estado TEXT DEFAULT 'ABIERTA',
             FOREIGN KEY (dispositivo_id) REFERENCES dispositivos (id) ON DELETE CASCADE
-        )
-    ''')
-
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS archivos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT,
-            tipo TEXT,
-            ruta TEXT
         )
     ''')
 

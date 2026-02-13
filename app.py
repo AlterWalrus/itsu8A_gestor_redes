@@ -1,45 +1,49 @@
 import streamlit as st
-import pandas as pd
-import log
+import style_helper
 import db
+import log
+import usuario
+import inicio
+import inve
+import arch
+
+style_helper.remover_espacio()
 
 st.set_page_config(page_title="redes", layout="wide")
 db.inicializar_db()
 
+if "page" not in st.session_state:
+    st.session_state.page = "inicio"
+
 if log.login():
     with st.container(border=True, horizontal=True):
+        if st.button("Inicio", icon=":material/home:"):
+            st.session_state.page = "inicio"
+
         if st.button("Inventario", icon=":material/dataset:"):
-            print("inv")
+            st.session_state.page = "invent"
         
-        if st.button("Configuración", icon=":material/settings:"):
-            print("config")
+        if st.button("Configuraciones", icon=":material/settings:"):
+            st.session_state.page = "config"
         
         if st.button("Planes", icon=":material/task:"):
-            print("planes")
-        
-        if st.button("Cerrar Sesión", icon=":material/logout:"):
+            st.session_state.page = "planes"
+
+        st.space("stretch")
+
+        if st.button("Perfil", icon=":material/account_circle:"):
+            usuario.configurar_usuario()
+
+        if st.button("", icon=":material/logout:", help="Cerrar sesión"):
             st.session_state.autenticado = False
             st.rerun()
     
 
-    with st.container(horizontal=True):
-        with st.container(border=True, horizontal=True):
-            df = pd.DataFrame({
-                    "t": [1, 2, 4, 3, 4, 3, 4, 5, 2, 1, 12, 12, 2, 11, 2, 7, 6, 7, 8, 5, 4, 3, 1, 2, 4, 3, 4, 3, 4, 5, 2, 1, 12, 12, 2, 11, 2, 7, 6, 7, 8, 5, 4, 3]
-                })
-            st.line_chart(df, color=(1.0, 0.0, 0.0))
-                
-            df = pd.DataFrame({
-                    "t": [1, 2, 4, 3, 4, 3, 4, 5, 2, 1, 12, 12, 2, 11, 2, 7, 6, 7, 8, 5, 4, 3, 1, 2, 4, 3, 4, 3, 4, 5, 2, 1, 12, 12, 2, 11, 2, 7, 6, 7, 8, 5, 4, 3]
-                })
-            st.line_chart(df, color=(0.0, 1.0, 0.0))
-        
-    
-        with st.container(border=True, horizontal_alignment="right"):
-            st.info("Dispositivos conectados", icon=":material/devices:")
-            pass_input = st.text_input("Filtrar", type="default", label_visibility="hidden")
-            
-            with st.container(height=190):
-                lst = ['192.168.12.12 - Device connected via blah blah'] * 12
-                for i in lst:
-                    st.markdown(i)
+    if st.session_state.page == "inicio":
+        inicio.show()
+    elif st.session_state.page == "invent":
+        inve.show()
+    elif st.session_state.page == "config":
+        arch.show("Configuracion")
+    elif st.session_state.page == "planes":
+        arch.show("Plan")
