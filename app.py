@@ -1,5 +1,7 @@
 import streamlit as st
+import pandas as pd
 import db
+
 
 st.set_page_config(page_title="redes", layout="wide")
 db.inicializar_db()
@@ -30,7 +32,7 @@ def login():
             center_container.markdown("## Bienvenido")
             
             user_input = "admin"
-            pass_input = center_container.text_input("pswd", type="password", placeholder="Contraseña", label_visibility='hidden')
+            pass_input = center_container.text_input("pswd", type="password", placeholder="Contraseña", label_visibility="hidden")
             
             if center_container.button("Iniciar Sesión", use_container_width=True):
                 if db.verificar_usuario(user_input, pass_input):
@@ -46,12 +48,53 @@ def login():
 
 
 
-if login():
-    st.title("Admin")
+#if login():
+if True:
+    #st.container(*, border=None, key=None, width="stretch", height="content", horizontal=False, horizontal_alignment="left", vertical_alignment="top", gap="small")
+    with st.container(border=True, horizontal=True):
+        #st.title("Admin")
+        
+        
+        if st.button("Inventario"):
+            print("inv")
+        
+        if st.button("Configuración"):
+            print("config")
+        
+        if st.button("Planes"):
+            print("planes")
+        
+        if st.button("Cerrar Sesión"):
+            st.session_state.autenticado = False
+            st.rerun()
     
-    if st.button("Cerrar Sesión"):
-        st.session_state.autenticado = False
-        st.rerun()
 
+    with st.container(horizontal=True):
+        with st.container(border=True, horizontal=True):
+            df = pd.DataFrame(
+                {
+                    "t": [1, 2, 3, 4, 5, 4, 3, 4, 2, 1, 12, 12, 2, 11, 2, 7, 6, 7, 8, 5, 4, 3]
+                }
+            )
+            st.line_chart(df, color=(1.0, 0.0, 0.0))
+                
+            df = pd.DataFrame(
+                {
+                    "t": [1, 2, 3, 4, 5, 4, 3, 4, 2, 1, 12, 12, 2, 11, 2, 7, 6, 7, 8, 5, 4, 3]
+                }
+            )
+            st.line_chart(df, color=(0.0, 1.0, 0.0))
+        
     
+        with st.container(border=True, horizontal_alignment="right"):
+            st.text("Dispositivos")
+
+            pass_input = st.text_input("Filtrar", type="default")
+            
+            with st.container(height=256):
+                lst = ['192.168.12.12 - Device connected via blah blah'] * 12
+                for i in lst:
+                    st.markdown(i)
+            
+        
     

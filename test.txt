@@ -2,3 +2,6 @@ ola pero no ola de mar sino ola de saludo
 
 para instalar las dependencias de python basta con hacer
     pip install -r req.txt
+
+    holaAAaaaaaaaa
+    
