@@ -33,7 +33,7 @@ def show(tipo_archivo):
     col1, col2 = st.columns([1, 1.3])
 
     with col1:
-        archivo = st.file_uploader("file", label_visibility='hidden', )
+        archivo = st.file_uploader("file", label_visibility='collapsed')
 
         if archivo and st.button("Subir archivo"):
             upload_path = Path(tipo_archivo + "es")
@@ -45,7 +45,6 @@ def show(tipo_archivo):
             st.success("Archivo subido correctamente", icon=":material/check:")
 
     with col2:
-        st.space("small")
         upload_path = Path(tipo_archivo + "es")
         upload_path.mkdir(exist_ok=True)
         archivos = list(upload_path.iterdir())

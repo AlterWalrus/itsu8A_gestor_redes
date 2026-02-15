@@ -22,9 +22,11 @@ def inicializar_db():
         CREATE TABLE IF NOT EXISTS dispositivos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT,
-            ip TEXT,
-            mac TEXT,
-            tipo TEXT,
+            ip TEXT UNIQUE,
+            mac TEXT UNIQUE,
+            fabricante TEXT,
+            tipo TEXT DEFAULT 'DESCONOCIDO',
+            ubicacion TEXT DEFAULT 'NO ASIGNADA',
             estado TEXT DEFAULT 'OFFLINE'
         )
     ''')
@@ -48,6 +50,55 @@ def inicializar_db():
     
     conn.commit()
     conn.close()
+
+
+def actualizar_tabla_dispositivos(lista_dispositivos):
+    conn = sqlite3.connect('red_admin.db')
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE dispositivos SET estado = 'OFFLINE'")
+    
+    agregados = 0
+    actualizados = 0
+    
+    for d in lista_dispositivos:
+        identificador = d['mac'] if d['mac'] != '00:00:00:00:00:00' else d['ip']
+        
+        try:
+            cursor.execute('''
+                INSERT INTO dispositivos (nombre, ip, mac, fabricante, estado)
+                VALUES (?, ?, ?, ?, 'ONLINE')
+            ''', (d['nombre'], d['ip'], d['mac'], d['fabricante']))
+            agregados += 1
+        except sqlite3.IntegrityError:
+            cursor.execute('''
+                UPDATE dispositivos 
+                SET ip = ?, estado = 'ONLINE' 
+                WHERE mac = ? OR ip = ?
+            ''', (d['ip'], d['mac'], d['ip']))
+            actualizados += 1
+            
+    conn.commit()
+    conn.close()
+    return agregados, actualizados
+
+
+def cargar_tabla_dispositivos():
+    conn = sqlite3.connect('red_admin.db')
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("SELECT * FROM dispositivos")
+        rows = cursor.fetchall()
+        
+        dispositivos = [dict(row) for row in rows]
+        return dispositivos
+    except sqlite3.Error as e:
+        print(f"Error al obtener dispositivos: {e}")
+        return []
+    finally:
+        conn.close()
 
 
 def generar_hash(password):

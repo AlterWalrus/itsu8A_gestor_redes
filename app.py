@@ -1,5 +1,4 @@
 import streamlit as st
-import style_helper
 import db
 import log
 import usuario
@@ -7,7 +6,21 @@ import inicio
 import inve
 import arch
 
-style_helper.remover_espacio()
+st.markdown("""
+    <style>
+        .block-container {
+            padding-top: 1rem;
+            padding-bottom: 0rem;
+            padding-left: 5rem;
+            padding-right: 5rem;
+        }
+        
+        header {
+            visibility: hidden;
+            height: 0px;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 st.set_page_config(page_title="redes", layout="wide")
 db.inicializar_db()
